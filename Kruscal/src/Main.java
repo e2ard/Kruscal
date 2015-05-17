@@ -2,7 +2,8 @@
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		String input = "E:\\Users\\Edvard\\git\\Kruscal\\Kruscal\\src\\input.txt";
+		GraphReader gr = new GraphReader(input);
 
 	}
 
