@@ -5,11 +5,12 @@ public class Vertice {
 	
 	public Vertice(String name){
 		this.name = name;
+		this.first = this;
 	}
 	public Vertice(String name, Vertice first) {
 		super();
 		this.name = name;
-		this.first = first;
+		this.first = this;
 	}
 	public String getName() {
 		return name;
@@ -22,6 +23,10 @@ public class Vertice {
 	}
 	public void setFirst(Vertice first) {
 		this.first = first;
+	}
+	@Override
+	public String toString() {
+		return "name " + name + " first " + first.getName();
 	}
 
 }

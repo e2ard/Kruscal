@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class GraphReader {
 	String input = "";
-
+	Graph graph;
 
 	public GraphReader(String input) {
 		super();
@@ -34,7 +34,7 @@ public class GraphReader {
 		        String[] splited = line.trim().split(" ");
 		        //get vertices
 		        for(String s1 : splited){
-		        	
+		        	//TODO set vertices;
 		        }
 		        line = br.readLine();
 		        int skip = 2;
@@ -42,13 +42,13 @@ public class GraphReader {
 		        	splited = line.trim().split(" ");
 		        	
 		        	for (int i = skip; i < splited.length; i++){
+		        		//TODO read lengths
 		        		System.out.println("vertice " + splited[i]);
 		        	}
 		        	skip++;
 		            System.out.println(line);
 		            
 		        } while((line = br.readLine()) != null);
-		        String everything = sb.toString();
 		        br.close();
 		    }catch(IOException e){
 		    	

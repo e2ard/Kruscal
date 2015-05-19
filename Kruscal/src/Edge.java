@@ -27,5 +27,13 @@ public class Edge {
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
+	public String toString(){
+		return begin.toString() + ' ' + end.toString() + ' ' + value;
+	}
+	public String toStringReverse(){
+		return end.toString() + ' ' + begin.toString() + ' ' + value;
+	}
+	
 
 }
