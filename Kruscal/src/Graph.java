@@ -1,18 +1,26 @@
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 
 public class Graph {
-	ArrayList<Edge> edges;
+	PriorityQueue<Edge> edges;
 	ArrayList<Vertice> vertices;
+	EdgeComparator comparator;
+	float weight;
 	
-	public Graph(ArrayList<Edge> edges, ArrayList<Vertice> vertices) {
+	public Graph(PriorityQueue<Edge> edges, ArrayList<Vertice> vertices) {
 		super();
-		this.edges = new ArrayList();
-		this.vertices = new ArrayList();
+		this.vertices = new ArrayList<Vertice>();
+		comparator = new EdgeComparator();
+		Comparator<Edge> comparator = new LengthComparator();
+		this.edges = new PriorityQueue<Edge>(10, comparator);
 	}
 	public Graph(){
-		this.edges = new ArrayList();
-		this.vertices = new ArrayList();
+		this.vertices = new ArrayList<Vertice>();
+		comparator = new EdgeComparator();
+		Comparator<Edge> comparator = new LengthComparator();
+		this.edges = new PriorityQueue<Edge>(10, comparator);
 	}
 	
 	public void addVertice(Vertice v){
@@ -31,22 +39,25 @@ public class Graph {
 		
 	}
 	public void addEdge(Edge e){
-		for(Edge temp : this.edges){
-			
-			if(temp.toString().equals(e.toString()) || (temp.toStringReverse().equals(e.toStringReverse()))||
-			   temp.toString().equals(e.toStringReverse()) || (temp.toStringReverse().equals(e.toString()))){
+		Edge[] edgeTemp = this.getEdges();
+		for(int i = 0; i < edgeTemp.length; i++){
+			if(comparator.compare(edgeTemp[i], e) > 0){
 				return;
 			}
 		}
-		this.edges.add(e);
+		this.edges.offer(e);
+		this.weight += e.getValue();
 		this.addVertice(e.getBegin());
 		this.addVertice(e.getEnd());
 	}
-	public Edge getEdgeAt(int i){
-		if(i < this.edges.size()){
-			return this.edges.get(i);
+	public Edge getMinEdge(){
+		if(this.edges.size() > 0){
+			return this.edges.remove();
 		}
 		return null;
+	}
+	public float getWeight(){
+		return this.weight;
 	}
 	public int getVerticeNum(){
 		return this.vertices.size();
@@ -54,15 +65,37 @@ public class Graph {
 	public int getEdgeNum(){
 		return this.edges.size();
 	}
+	public Edge[] getEdges(){
+		Edge[] edgeTemp = new Edge[edges.size()];
+		edges.toArray(edgeTemp);
+		return edgeTemp;
+	}
 	public String toString(){
 		String vert = "";
 		for(Vertice v : this.vertices){
 			vert += v.getName() + ' ';
 		}
 		String edge = "";
-		for(Edge e : this.edges){
-			edge += e.getBegin().getName() + e.getEnd().getName() + ' ';
+		Edge[] temp = new Edge[edges.size()];
+				this.edges.toArray(temp);
+		for(Edge e : temp){
+			edge += e.getBegin().getName() + e.getEnd().getName() + "v:" + e.getValue()  + ' ' ;
+			if(edge.length() % 20 == 0){
+				edge += '\n';
+			}
 		}
-		return "vertices: " + vert + '\n' + "edges: " + edge;
+		return "vertices: " + vert + '\n' + "edges: " + edge + "\n" + weight;
+	}
+	public Graph getMinSpin(){
+		Graph minSpin = new Graph();
+		Edge temp = this.getMinEdge();
+		while(temp != null){
+			if(temp.getBegin().getFirst() != temp.getEnd().getFirst()){
+				temp.getEnd().setFirst(temp.getBegin().getFirst());
+				minSpin.addEdge(temp);
+			}
+			temp = this.getMinEdge();
+		}
+		return minSpin;
 	}
 }

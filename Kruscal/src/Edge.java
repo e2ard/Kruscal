@@ -2,8 +2,8 @@
 public class Edge {
 	Vertice begin;
 	Vertice end;
-	int value;
-	public Edge(Vertice begin, Vertice end, int value) {
+	float value;
+	public Edge(Vertice begin, Vertice end, float value) {
 		super();
 		this.begin = begin;
 		this.end = end;
@@ -21,7 +21,7 @@ public class Edge {
 	public void setEnd(Vertice end) {
 		this.end = end;
 	}
-	public int getValue() {
+	public float getValue() {
 		return value;
 	}
 	public void setValue(int value) {
@@ -29,11 +29,9 @@ public class Edge {
 	}
 	
 	public String toString(){
-		return begin.toString() + ' ' + end.toString() + ' ' + value;
+		return begin.getName() + end.getName() + value + ' ';
 	}
-	public String toStringReverse(){
-		return end.toString() + ' ' + begin.toString() + ' ' + value;
-	}
+	
 	
 
 }

@@ -26,7 +26,7 @@ public class Vertice {
 	}
 	@Override
 	public String toString() {
-		return "name " + name + " first " + first.getName();
+		return name + " " + first.getName();
 	}
 
 }

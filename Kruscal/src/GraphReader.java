@@ -3,11 +3,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class GraphReader {
 	String input = "";
-	Graph graph;
+	Graph g;
 
 	public GraphReader(String input) {
 		super();
@@ -22,10 +23,13 @@ public class GraphReader {
 	public void setIntputPath(String intput) {
 		this.input = intput;
 	}
-	
+	public Graph getGraph(){
+		return this.g;
+	}
 	//other methods
 	public void readFromFile(){
 		FileReader fr = getFileReader(input);
+		g = new Graph();
 		if( fr != null){
 			BufferedReader br = new BufferedReader(fr);
 		    try {
@@ -33,21 +37,25 @@ public class GraphReader {
 		        String line = br.readLine();
 		        String[] splited = line.trim().split(" ");
 		        //get vertices
+		        ArrayList<Vertice> vert = new ArrayList<Vertice>();
 		        for(String s1 : splited){
-		        	//TODO set vertices;
+		        	g.addVertice(new Vertice(s1));
 		        }
 		        line = br.readLine();
 		        int skip = 2;
-		        do  {
+		        do {
 		        	splited = line.trim().split(" ");
 		        	
 		        	for (int i = skip; i < splited.length; i++){
-		        		//TODO read lengths
-		        		System.out.println("vertice " + splited[i]);
+		        		int length = Integer.parseInt(splited[i]);
+		        		if( length!= 0){
+		        			Vertice v1 = g.getVerticeAt(skip-2);
+		        			Vertice v2 = g.getVerticeAt(i-1);
+		        			g.addEdge(new Edge(v1,v2, length));
+		        		}
 		        	}
 		        	skip++;
-		            System.out.println(line);
-		            
+//		            System.out.println(line);
 		        } while((line = br.readLine()) != null);
 		        br.close();
 		    }catch(IOException e){
